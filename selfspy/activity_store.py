@@ -137,11 +137,20 @@ class ActivityStore:
             cur_geometry = Geometry(win_x, win_y, win_width, win_height)
             self.session.add(cur_geometry)
 
-        cur_window = self.session.query(Window).filter_by(title=window_name,
-                                                          process_id=cur_process.id).scalar()
-        if not cur_window:
+        window_query = self.session.query(Window).filter_by(title=window_name,
+                                                            process_id=cur_process.id)
+        num_windows = window_query.count()
+        if num_windows == 0:
             cur_window = Window(window_name, cur_process.id)
             self.session.add(cur_window)
+        elif num_windows == 1:
+            cur_window = window_query.scalar()
+        else:
+            print 'Num windows: {}'.format(num_windows)
+            all_windows = window_query.all()
+            cur_window = all_windows[0]
+            for i in range(1, num_windows):
+                self.session.delete(all_windows[i])
 
         if not (self.current_window.proc_id == cur_process.id
                 and self.current_window.win_id == cur_window.id):
