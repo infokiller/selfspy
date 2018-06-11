@@ -1,0 +1,17 @@
+name: selfspy
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=2.7
+  - lockfile
+  - pycrypto
+  - keyring
+  - sqlalchemy
+  - tk
+  - python-xlib
+  - pygobject
+  - pip
+  - pip:
+    - dbus-python
+    - secretstorage
