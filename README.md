@@ -5,17 +5,17 @@ See Example Statistics, below, for some of the fabulous things you can do with t
 
 ### Windows
 
-Due to Windows libs needing a external compiler to compile libs, some libs won't compile on all computers.   
-These are the sinners*:   
-`pyHook==1.5.1`   
-`pyCrypto==2.5 `   
-They are added too the windows-requirements.txt, but IF you fail to build these libs, here are the precompiled binaries. pyWin32 is needed for some library dependency, pip can't install pyWin32, so please use the binary below.      
-pyHook: http://sourceforge.net/projects/pyhook/files/pyhook/   
-pyCrytpo: http://www.voidspace.org.uk/python/modules.shtml#pycrypto   
-pyWin32: http://sourceforge.net/projects/pywin32/files/pywin32/  
-  
-*SQLAlchemy does compile without the external compiler, but it uses a clean Python version which might slow things down.  
-   
+Due to Windows libs needing a external compiler to compile libs, some libs won't compile on all computers.
+These are the sinners*:
+`pyHook==1.5.1`
+`pyCrypto==2.5 `
+They are added too the windows-requirements.txt, but IF you fail to build these libs, here are the precompiled binaries. pyWin32 is needed for some library dependency, pip can't install pyWin32, so please use the binary below.
+pyHook: http://sourceforge.net/projects/pyhook/files/pyhook/
+pyCrytpo: http://www.voidspace.org.uk/python/modules.shtml#pycrypto
+pyWin32: http://sourceforge.net/projects/pywin32/files/pywin32/
+
+*SQLAlchemy does compile without the external compiler, but it uses a clean Python version which might slow things down.
+
 ### Installing Selfspy
 
 If you run ArchLinux, here is an AUR package which may be up-to-date:
@@ -84,7 +84,7 @@ optional arguments:
   -d DATA_DIR, --data-dir DATA_DIR
                         Data directory for selfspy, where the database is
                         stored. Remember that Selfspy must have read/write
-                        access. Default is ~/.selfspy
+                        access. Default is ${XDG_DATA_HOME}/selfspy"
   -n, --no-text         Do not store what you type. This will make your
                         database smaller and less sensitive to security
                         breaches. Process name, window titles, window
@@ -132,7 +132,7 @@ This shows everything I have ever written in Chrome, where the window title cont
 
 `selfstats --date 10 --limit 1 d -P emacs --tkeys`
 
-What buffers did I have open in Emacs on the tenth of this month and one day forward? Sort by how many keystrokes I wrote in each. This only works if I have set Emacs to display the current buffer in the window title. In general, try to set your programs (editors, terminals, web apps, ...) to include information on what you are doing in the window title. This will make it easier to search for later. 
+What buffers did I have open in Emacs on the tenth of this month and one day forward? Sort by how many keystrokes I wrote in each. This only works if I have set Emacs to display the current buffer in the window title. In general, try to set your programs (editors, terminals, web apps, ...) to include information on what you are doing in the window title. This will make it easier to search for later.
 
 On a related but opposite note: if you have the option, remove information like "mails unread" or "unread count" (for example in Gmail and Google Reader) from the window titles, to make it easier to group them in --tactive and --tkeys.
 
@@ -152,7 +152,7 @@ This will show ratios informing me about how much I have written per active seco
 
 `selfstats --body printer -s --back 40 w`
 
-Show the texts where I have used the word printer in the last 10 weeks. If it turns out that the actual IP adress is not in the same text chunk as when you wrote "printer", you can note the row ID and use --id 
+Show the texts where I have used the word printer in the last 10 weeks. If it turns out that the actual IP adress is not in the same text chunk as when you wrote "printer", you can note the row ID and use --id
  (or --date and --clock) and --limit to show what else you wrote around that time.
 
 *"What programs do I use the most?"*

@@ -50,9 +50,12 @@ def parse_config():
         config.read([args.config])
         defaults = dict(config.items('Defaults'))
     else:
-        if os.path.exists(os.path.expanduser('~/.selfspy/selfspy.conf')):
+        xdg_config_dir = os.environ.get(
+            'XDG_CONFIG_HOME', os.path.expandvars('${HOME}/.config'))
+        config_file_path = os.path.join(xdg_config_dir, 'selfspy.conf')
+        if os.path.exists(config_file_path):
             config = ConfigParser.SafeConfigParser()
-            config.read([os.path.expanduser('~/.selfspy/selfspy.conf')])
+            config.read([config_file_path])
             defaults = dict(config.items('Defaults'))
 
     parser = argparse.ArgumentParser(description='Monitor your computer activities and store them in an encrypted database for later analysis or disaster recovery.', parents=[conf_parser])

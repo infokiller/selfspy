@@ -16,8 +16,11 @@
 
 # You should have received a copy of the GNU General Public License
 # along with Selfspy.  If not, see <http://www.gnu.org/licenses/>.
+import os.path
 
-DATA_DIR = '~/.selfspy'
+XDG_DATA_HOME = os.environ.get(
+    'XDG_DATA_HOME', os.path.expandvars('${HOME}/.local/share'))
+DATA_DIR = os.path.join(XDG_DATA_HOME, 'selfspy')
 DBNAME = 'selfspy.sqlite'
 LOCK_FILE = 'selfspy.pid'
 LOCK = None
