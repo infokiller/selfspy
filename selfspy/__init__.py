@@ -160,6 +160,7 @@ def main():
         args['password'] = get_password(verify=check_with_encrypter)
 
     encrypter = selfspy.encryption.make_encrypter(salt, args['password'])
+
     if try_db_conversion:
         selfspy.models.ENCRYPTER = _make_legacy_encrypter(args['password'])
         sessionmaker = selfspy.models.initialize(
@@ -177,13 +178,11 @@ def main():
         except Exception as e:
             session.rollback()
             raise
-
     sessionmaker = selfspy.models.initialize(
         os.path.join(args['data_dir'], cfg.DBNAME))
     session = sessionmaker()
     for window in session.query(selfspy.models.Window).all():
-        print(encrypter.decrypt(window.title.encode('utf8')).decode('utf8'))
-
+        encrypter.decrypt(window.title.encode('utf8')).decode('utf8')
 
     if not check_password.check(args['data_dir'], encrypter):
         print('Password failed')
