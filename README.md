@@ -101,7 +101,7 @@ optional arguments:
 
 Everything you do is stored in a Sqlite database in your DATA_DIR. Things that you type (passwords, for example) are generally too sensitive to leave in plain text, so they are encrypted with the supplied password. Other database columns, like process names and window titles, are not encrypted. This makes it faster and easier to search for them later.
 
-Unless you use the --no-text flag, selfspy will store everything you type in two <a href="http://en.wikipedia.org/wiki/Blowfish_(cipher)">Blowfish</a> encrypted columns in the database.
+Unless you use the --no-text flag, selfspy will store everything you type in two encrypted columns in the database.
 
 Normally you would like Selfspy to start automatically when you launch X. How to do this depends on your system, but it will normally mean editing *~/.xinitrc* or *~/.xsession*. If you run KDE, *~/.kde/Autostart*, is a good place to put startup scripts. When run, Selfspy will immediately spawn a daemon and exit.
 

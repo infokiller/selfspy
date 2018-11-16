@@ -17,7 +17,7 @@
 
 import time
 from datetime import datetime
-NOW = datetime.now
+from functools import reduce
 
 import sqlalchemy
 
@@ -29,7 +29,7 @@ elif platform.system() == 'Windows':
 else:
     from selfspy import sniff_x as sniffer
 
-from selfspy import models
+import selfspy.models
 from selfspy.models import Process, Window, Geometry, Click, Keys
 
 
@@ -55,13 +55,13 @@ class KeyPress:
 
 class ActivityStore:
     def __init__(self, db_name, encrypter=None, store_text=True, repeat_char=True):
-        self.session_maker = models.initialize(db_name)
+        self.session_maker = selfspy.models.initialize(db_name)
 
-        models.ENCRYPTER = encrypter
+        selfspy.models.ENCRYPTER = encrypter
 
         self.store_text = store_text
         self.repeat_char = repeat_char
-        self.curtext = u""
+        self.curtext = ""
 
         self.key_presses = []
         self.mouse_path = []
@@ -73,7 +73,7 @@ class ActivityStore:
         self.last_key_time = time.time()
         self.last_commit = time.time()
 
-        self.started = NOW()
+        self.started = datetime.now()
         self.last_screen_change = None
 
     def trycommit(self):
@@ -146,7 +146,7 @@ class ActivityStore:
         elif num_windows == 1:
             cur_window = window_query.scalar()
         else:
-            print 'Num windows: {}'.format(num_windows)
+            print('Num windows: {}'.format(num_windows))
             all_windows = window_query.all()
             cur_window = all_windows[0]
             for i in range(1, num_windows):
@@ -197,7 +197,7 @@ class ActivityStore:
             add = lambda count, press: count + (0 if press.is_repeat else 1)
             nrkeys = reduce(add, self.key_presses, 0)
 
-            curtext = u""
+            curtext = ""
             if not self.store_text:
                 keys = []
             else:
@@ -214,7 +214,7 @@ class ActivityStore:
 
             self.trycommit()
 
-            self.started = NOW()
+            self.started = datetime.now()
             self.key_presses = []
             self.last_key_time = time.time()
 
@@ -275,10 +275,15 @@ class ActivityStore:
 
     def change_password(self, new_encrypter):
         self.session = self.session_maker()
-        keys = self.session.query(Keys).all()
-        for k in keys:
-            dtext = k.decrypt_text()
-            dkeys = k.decrypt_keys()
-            k.encrypt_text(dtext, new_encrypter)
-            k.encrypt_keys(dkeys, new_encrypter)
-        self.session.commit()
+        try:
+            for key in self.session.query(Keys).all():
+                dtext = key.decrypt_text()
+                dkeys = key.decrypt_keys()
+                key.encrypt_text(dtext, new_encrypter)
+                key.encrypt_keys(dkeys, new_encrypter)
+            for window in self.session.query(Window).all():
+                dtitle = window.get_title()
+                window.set_title(dtitle, new_encrypter)
+            self.session.commit()
+        except:
+            self.session.rollback()

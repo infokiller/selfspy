@@ -60,10 +60,10 @@ class Sniffer:
     def run(self):
         # Check if the extension is present
         if not self.record_display.has_extension("RECORD"):
-            print "RECORD extension not found"
+            print("RECORD extension not found")
             sys.exit(1)
         else:
-            print "RECORD extension present"
+            print("RECORD extension present")
 
         # Create a recording context; we only want key and mouse events
         self.ctx = self.record_display.record_create_context(
@@ -95,9 +95,9 @@ class Sniffer:
         if reply.category != record.FromServer:
             return
         if reply.client_swapped:
-            print "* received swapped protocol data, cowardly ignored"
+            print("* received swapped protocol data, cowardly ignored")
             return
-        if not len(reply.data) or ord(reply.data[0]) < 2:
+        if not len(reply.data) or reply.data[0] < 2:
             # not an event
             return
 
@@ -127,28 +127,34 @@ class Sniffer:
             elif event.type == X.MappingNotify:
                 self.the_display.refresh_keyboard_mapping()
                 newkeymap = self.the_display._keymap_codes
-                print 'Change keymap!', newkeymap == self.keymap
+                print('Change keymap!', newkeymap == self.keymap)
                 self.keymap = newkeymap
 
     def get_key_name(self, keycode, state):
         state_idx = state_to_idx(state)
         cn = self.keymap[keycode][state_idx]
         if cn < 256:
-            return chr(cn).decode('latin1')
+            return chr(cn)
         else:
             return self.lookup_keysym(cn)
 
     def key_event(self, event):
         flags = event.state
         modifiers = []
+        if flags & X.ShiftMask:
+            modifiers.append('Shift')
         if flags & X.ControlMask:
             modifiers.append('Ctrl')
         if flags & X.Mod1Mask:  # Mod1 is the alt key
             modifiers.append('Alt')
+        if flags & X.Mod2Mask:
+            modifiers.append('Mod2')
+        if flags & X.Mod3Mask:
+            modifiers.append('Mod3')
         if flags & X.Mod4Mask:  # Mod4 should be super/windows key
             modifiers.append('Super')
-        if flags & X.ShiftMask:
-            modifiers.append('Shift')
+        if flags & X.Mod5Mask:
+            modifiers.append('Mod5')
         return (event.detail,
                 modifiers,
                 self.get_key_name(event.detail, event.state),
@@ -212,7 +218,7 @@ class Sniffer:
             break
         cur_class = cur_class or ''
         cur_name = cur_name or ''
-        return cur_class.decode('latin1'), cur_window, cur_name
+        return cur_class, cur_window, cur_name
 
     def get_geometry(self, cur_window):
         i = 0

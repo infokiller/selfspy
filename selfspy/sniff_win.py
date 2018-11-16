@@ -33,12 +33,12 @@ class SnifferThread(threading.Thread):
         self.mouse_move_hook = lambda x: True
         self.screen_hook = lambda x: True
         self.remap = {
-                248: u"\xf8",
-                216: u"\xd8",
-                230: u"\xe6",
-                198: u"\xc6",
-                229: u"\xe5",
-                197: u"\xc5"
+                248: "\xf8",
+                216: "\xd8",
+                230: "\xe6",
+                198: "\xc6",
+                229: "\xe5",
+                197: "\xc5"
                 }
         self.hm = hook
 
@@ -87,10 +87,10 @@ class SnifferThread(threading.Thread):
             modifiers.append('Ctrl')
         elif event.Key in ["Rwin", "Lwin"]:
             modifiers.append('Super')
-        if event.Ascii in self.remap.keys():
+        if event.Ascii in list(self.remap.keys()):
             string = self.remap[event.Ascii]
         else:
-            string = unicode(chr(event.Ascii))
+            string = str(chr(event.Ascii))
         self.key_hook(str(event.Ascii), modifiers, string, False)
         window_name = event.WindowName or ''
         self.screen_hook(str(event.Window), window_name.decode(self.encoding), 0, 0, 0, 0)
@@ -106,12 +106,12 @@ class Sniffer:
         self.mouse_move_hook = lambda x: True
         self.screen_hook = lambda x: True
         self.remap = {
-                248: u"\xf8",
-                216: u"\xd8",
-                230: u"\xe6",
-                198: u"\xc6",
-                229: u"\xe5",
-                197: u"\xc5"
+                248: "\xf8",
+                216: "\xd8",
+                230: "\xe6",
+                198: "\xc6",
+                229: "\xe5",
+                197: "\xc5"
                 }
 
     def run(self):

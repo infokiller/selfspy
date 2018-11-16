@@ -15,11 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with Selfspy.  If not, see <http://www.gnu.org/licenses/>.
 
-import zlib
+import base64
+import datetime
 import json
 import re
+import zlib
 
-import datetime
+import cryptography.fernet
 
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy import (
@@ -37,6 +39,22 @@ def initialize(fname):
 ENCRYPTER = None
 
 Base = declarative_base()
+
+
+def maybe_encrypt(s, other_encrypter=None):
+    if other_encrypter is not None:
+        s = other_encrypter.encrypt(s)
+    elif ENCRYPTER:
+        s = ENCRYPTER.encrypt(s)
+    return s
+
+
+def maybe_decrypt(s, other_encrypter=None):
+    if other_encrypter is not None:
+        s = other_encrypter.decrypt(s)
+    elif ENCRYPTER:
+        s = ENCRYPTER.decrypt(s)
+    return s
 
 
 class SpookMixin(object):
@@ -66,11 +84,19 @@ class Window(SpookMixin, Base):
     process = relationship("Process", backref=backref('windows'))
 
     def __init__(self, title, process_id):
-        self.title = title
+        self.set_title(title)
         self.process_id = process_id
 
     def __repr__(self):
-        return "<Window '%s'>" % (repr(self.title))
+        return "<Window '%s'>" % (repr(self.get_title()))
+
+    def set_title(self, title, other_encrypter=None):
+        self.title = maybe_encrypt(
+            title.encode('utf8'),
+            other_encrypter=other_encrypter).decode('utf8')
+
+    def get_title(self):
+        return maybe_decrypt(self.title.encode('utf8')).decode('utf-8')
 
 
 class Geometry(SpookMixin, Base):
@@ -122,31 +148,6 @@ class Click(SpookMixin, Base):
         return "<Click (%d, %d), (%d, %d, %d)>" % (self.x, self.y, self.button, self.press, self.nrmoves)
 
 
-def pad(s, padnum):
-    ls = len(s)
-    if ls % padnum == 0:
-        return s
-    return s + '\0' * (padnum - (ls % padnum))
-
-
-def maybe_encrypt(s, other_encrypter=None):
-    if other_encrypter is not None:
-        s = pad(s, 8)
-        s = other_encrypter.encrypt(s)
-    elif ENCRYPTER:
-        s = pad(s, 8)
-        s = ENCRYPTER.encrypt(s)
-    return s
-
-
-def maybe_decrypt(s, other_encrypter=None):
-    if other_encrypter is not None:
-        s = other_encrypter.decrypt(s)
-    elif ENCRYPTER:
-        s = ENCRYPTER.decrypt(s)
-    return s
-
-
 class Keys(SpookMixin, Base):
     text = Column(Binary, nullable=False)
     started = Column(DateTime, nullable=False)
@@ -166,7 +167,7 @@ class Keys(SpookMixin, Base):
     timings = Column(Binary)
 
     def __init__(self, text, keys, timings, nrkeys, started, process_id, window_id, geometry_id):
-        ztimings = zlib.compress(json.dumps(timings))
+        ztimings = zlib.compress(json.dumps(timings).encode('utf8'))
 
         self.encrypt_text(text)
         self.encrypt_keys(keys)
@@ -184,7 +185,7 @@ class Keys(SpookMixin, Base):
         self.text = ztext
 
     def encrypt_keys(self, keys, other_encrypter=None):
-        zkeys = maybe_encrypt(zlib.compress(json.dumps(keys)),
+        zkeys = maybe_encrypt(zlib.compress(json.dumps(keys).encode('utf8')),
                               other_encrypter=other_encrypter)
         self.keys = zkeys
 

@@ -3,9 +3,10 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=2.7
+  - python=3.6
   - lockfile
   - pycrypto
+  - cryptography
   - keyring
   - sqlalchemy
   - tk
