@@ -181,8 +181,6 @@ class Sniffer:
         if d is None or d.format != 8:
             # Fallback.
             r = win.get_wm_name()
-            if r:
-                return r.decode('latin1')  # WM_NAME with type=STRING.
         else:
             # Fixing utf8 issue on Ubuntu (https://github.com/gurgeh/selfspy/issues/133)
             # Thanks to https://github.com/gurgeh/selfspy/issues/133#issuecomment-142943681
