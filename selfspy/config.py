@@ -22,6 +22,6 @@ XDG_DATA_HOME = os.environ.get(
     'XDG_DATA_HOME', os.path.expandvars('${HOME}/.local/share'))
 DATA_DIR = os.path.join(XDG_DATA_HOME, 'selfspy')
 DBNAME = 'selfspy.sqlite'
-LOCK_FILE = 'lockfile'
+LOCK_FILE = 'selfspy.pid'
 SALT_FILE = 'salt'
 LOCK = None
