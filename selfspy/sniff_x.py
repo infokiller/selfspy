@@ -187,7 +187,7 @@ class Sniffer:
             try:
                 return d.value.decode('utf8')
             except UnicodeError:
-                return d.value.encode('utf8').decode('utf8')
+                return d.value.decode('utf8')
 
     def get_cur_window(self):
         i = 0
