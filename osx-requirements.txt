@@ -1,5 +1,5 @@
 SQLAlchemy==0.9.4
-lockfile==0.9.1
+lockfile==0.12.2
 pycrypto==2.5
 pyobjc-core==3.0.4
 pyobjc-framework-Cocoa==3.0.4
