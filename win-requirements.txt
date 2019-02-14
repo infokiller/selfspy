@@ -1,5 +1,5 @@
 SQLAlchemy==1.2.17
 lockfile==0.12.2
-keyring==17.1.1
+keyring==18.0.0
 pyHook==1.5.1
 pycrypto==2.6.1
