@@ -1,4 +1,4 @@
-SQLAlchemy==1.2.17
+SQLAlchemy==1.2.18
 lockfile==0.12.2
 pycrypto==2.6.1
 pyobjc-core==5.1.2
