@@ -3,5 +3,5 @@ lockfile==0.12.2
 pycrypto==2.6.1
 pyobjc-core==5.1.2
 pyobjc-framework-Cocoa==3.0.4
-keyring==18.0.0
+keyring==19.0.1
 pyobjc-framework-Quartz==5.1.2
