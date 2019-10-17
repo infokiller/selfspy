@@ -4,4 +4,4 @@ pycrypto==2.6.1
 pyobjc-core==5.2
 pyobjc-framework-Cocoa==5.2
 keyring==19.2.0
-pyobjc-framework-Quartz==5.2
+pyobjc-framework-Quartz==5.3
