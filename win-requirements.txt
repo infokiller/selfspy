@@ -1,4 +1,4 @@
-SQLAlchemy==1.4.9
+SQLAlchemy==1.4.10
 pycrypto==2.6.1
 cryptography==3.4.7
 secretstorage==3.3.1
