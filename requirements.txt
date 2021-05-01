@@ -1,6 +1,9 @@
 SQLAlchemy==1.4.12
-pycrypto==2.6.1
+pycryptodome==3.10.1
 cryptography==3.4.7
 secretstorage==3.3.1
 keyring==23.0.1
 lockfile==0.12.2
+
+dbus-python==1.2.16
+python-xlib @ git+https://github.com/python-xlib/python-xlib.git@0.29
