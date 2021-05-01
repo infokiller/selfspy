@@ -181,8 +181,9 @@ def main():
     sessionmaker = selfspy.models.initialize(
         os.path.join(args['data_dir'], cfg.DBNAME))
     session = sessionmaker()
-    for window in session.query(selfspy.models.Window).all():
-        encrypter.decrypt(window.title.encode('utf8')).decode('utf8')
+    # Test that all window titles can be decrypted
+    # for window in session.query(selfspy.models.Window).all():
+    #     encrypter.decrypt(window.title.encode('utf8')).decode('utf8')
 
     if not check_password.check(args['data_dir'], encrypter):
         print('Password failed')
