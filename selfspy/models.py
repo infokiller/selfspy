@@ -25,7 +25,7 @@ import cryptography.fernet
 
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy import (
-    Index, Column, Boolean, Integer, Unicode, DateTime, Binary, ForeignKey,
+    Index, Column, Boolean, Integer, Unicode, DateTime, LargeBinary, ForeignKey,
     create_engine
 )
 from sqlalchemy.orm import sessionmaker, relationship, backref
@@ -149,7 +149,7 @@ class Click(SpookMixin, Base):
 
 
 class Keys(SpookMixin, Base):
-    text = Column(Binary, nullable=False)
+    text = Column(LargeBinary, nullable=False)
     started = Column(DateTime, nullable=False)
 
     process_id = Column(Integer, ForeignKey('process.id'), nullable=False, index=True)
@@ -163,8 +163,8 @@ class Keys(SpookMixin, Base):
 
     nrkeys = Column(Integer, index=True)
 
-    keys = Column(Binary)
-    timings = Column(Binary)
+    keys = Column(LargeBinary)
+    timings = Column(LargeBinary)
 
     def __init__(self, text, keys, timings, nrkeys, started, process_id, window_id, geometry_id):
         ztimings = zlib.compress(json.dumps(timings).encode('utf8'))
