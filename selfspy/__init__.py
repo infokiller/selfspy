@@ -19,19 +19,23 @@
 
 import argparse
 import configparser
+import hashlib
 import os
 import sys
-import hashlib
+import logging
 
 from Crypto.Cipher import Blowfish
 from lockfile import LockFile
 
-from selfspy.activity_store import ActivityStore
-from selfspy.password_dialog import get_password
+import selfspy.encryption
+import selfspy.models
 from selfspy import check_password
 from selfspy import config as cfg
-import selfspy.models
-import selfspy.encryption
+from selfspy import logutils
+from selfspy.activity_store import ActivityStore
+from selfspy.password_dialog import get_password
+
+logger = logutils.logger
 
 
 def parse_config():
@@ -50,8 +54,8 @@ def parse_config():
     defaults = {}
     if args.config:
         if not os.path.exists(args.config):
-            raise EnvironmentError(
-                "Config file %s doesn't exist." % args.config)
+            raise EnvironmentError("Config file %s doesn't exist." %
+                                   args.config)
         config = configparser.SafeConfigParser()
         config.read([args.config])
         defaults = dict(config.items('Defaults'))
@@ -69,6 +73,12 @@ def parse_config():
         'Monitor your computer activities and store them in an encrypted database for later analysis or disaster recovery.',
         parents=[conf_parser])
     parser.set_defaults(**defaults)
+    parser.add_argument(
+        '--log-level',
+        choices=('debug', 'info', 'warning', 'error', 'critical'),
+        default='info',
+        help='Logging level for stderr and syslog.'
+    )
     parser.add_argument(
         '-p',
         '--password',
@@ -108,16 +118,18 @@ def parse_config():
 def _make_legacy_encrypter(password):
     if password == "":
         return None
-    return Blowfish.new(hashlib.md5(password.encode('utf8')).digest())
+    return Blowfish.new(
+        hashlib.md5(password.encode('utf8')).digest(), Blowfish.MODE_ECB)
 
 
 def main():
     try:
         args = vars(parse_config())
     except EnvironmentError as ex:
-        print(str(ex))
-        sys.exit(1)
-    print(args)
+        sys.exit(ex)
+    logutils.init_logger('selfspy')
+    logger.setLevel(getattr(logging, args['log_level'].upper(), None))
+    logger.info(f'Selfspy config: {args}')
 
     args['data_dir'] = os.path.expanduser(args['data_dir'])
 
@@ -129,10 +141,10 @@ def main():
     lockname = os.path.join(args['data_dir'], cfg.LOCK_FILE)
     cfg.LOCK = LockFile(lockname)
     if cfg.LOCK.is_locked():
-        print('%s is locked! I am probably already running.' % lockname)
-        print('If you can find no selfspy process running, it is a stale lock '
+        logger.error(f'{cfg.LOCK.lock_file} is locked! I am probably already running.')
+        logger.error('If you can find no selfspy process running, it is a stale lock '
               'and you can safely remove it.')
-        print('Shutting down.')
+        logger.error('Shutting down.')
         sys.exit(1)
 
     try_db_conversion = False
@@ -142,7 +154,7 @@ def main():
             salt = f.read()
     else:
         try_db_conversion = True
-        print(
+        logger.info(
             'No salt file found, generating salt and attempting db conversion')
         salt = os.urandom(16)
         with open(salt_file_path, 'wb') as f:
@@ -175,7 +187,7 @@ def main():
             for window in session.query(selfspy.models.Window).all():
                 window.set_title(window.title, encrypter)
             session.commit()
-        except Exception as e:
+        except Exception:
             session.rollback()
             raise
     sessionmaker = selfspy.models.initialize(
@@ -186,33 +198,31 @@ def main():
     #     encrypter.decrypt(window.title.encode('utf8')).decode('utf8')
 
     if not check_password.check(args['data_dir'], encrypter):
-        print('Password failed')
+        logger.error('Password failed')
         sys.exit(1)
 
     if args['change_password']:
         new_password = get_password(message="New Password: ")
         new_encrypter = selfspy.encryption.make_encrypter(salt, new_password)
-        print('Re-encrypting your keys...')
-        astore = ActivityStore(
-            os.path.join(args['data_dir'], cfg.DBNAME),
-            encrypter,
-            store_text=(not args['no_text']),
-            repeat_char=(not args['no_repeat']))
+        logger.error('Re-encrypting your keys...')
+        astore = ActivityStore(os.path.join(args['data_dir'], cfg.DBNAME),
+                               encrypter,
+                               store_text=(not args['no_text']),
+                               repeat_char=(not args['no_repeat']))
         astore.change_password(new_encrypter)
         # delete the old password.digest
         os.remove(os.path.join(args['data_dir'], check_password.DIGEST_NAME))
         check_password.check(args['data_dir'], new_encrypter)
         # don't assume we want the logger to run afterwards
-        print('Exiting...')
+        logger.info('Exiting...')
         sys.exit(0)
 
-    astore = ActivityStore(
-        os.path.join(args['data_dir'], cfg.DBNAME),
-        encrypter,
-        store_text=(not args['no_text']),
-        repeat_char=(not args['no_repeat']))
+    astore = ActivityStore(os.path.join(args['data_dir'], cfg.DBNAME),
+                           encrypter,
+                           store_text=(not args['no_text']),
+                           repeat_char=(not args['no_repeat']))
     try:
-        cfg.LOCK.acquire()
+        cfg.LOCK.acquire(0)
         try:
             astore.run()
         except SystemExit:

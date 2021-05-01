@@ -13,7 +13,7 @@ else:
 with open(os.path.join(os.path.dirname(__file__), req_file)) as f:
     requires = list(f.readlines())
 
-print '"%s"' % requires
+print(requires)
 
 from setuptools import setup
 

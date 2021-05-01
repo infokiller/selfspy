@@ -5,6 +5,7 @@ channels:
 dependencies:
   - python=3.7
   - pygobject
+  - pylint
   # Note that secretstorage version 3.1.0 has a bug when used with keyring.
   - pip
   - pip:

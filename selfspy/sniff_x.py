@@ -25,6 +25,9 @@ from Xlib.ext import record
 from Xlib.error import XError
 from Xlib.protocol import rq
 
+from selfspy import logutils
+
+logger = logutils.logger
 
 def state_to_idx(state):  # this could be a dict, but I might want to extend it.
     if state == 1:
@@ -60,10 +63,10 @@ class Sniffer:
     def run(self):
         # Check if the extension is present
         if not self.record_display.has_extension("RECORD"):
-            print("RECORD extension not found")
+            logger.info("RECORD extension not found")
             sys.exit(1)
         else:
-            print("RECORD extension present")
+            logger.info("RECORD extension present")
 
         # Create a recording context; we only want key and mouse events
         self.ctx = self.record_display.record_create_context(
@@ -95,7 +98,7 @@ class Sniffer:
         if reply.category != record.FromServer:
             return
         if reply.client_swapped:
-            print("* received swapped protocol data, cowardly ignored")
+            logger.info("* received swapped protocol data, cowardly ignored")
             return
         if not len(reply.data) or reply.data[0] < 2:
             # not an event
@@ -127,7 +130,7 @@ class Sniffer:
             elif event.type == X.MappingNotify:
                 self.the_display.refresh_keyboard_mapping()
                 newkeymap = self.the_display._keymap_codes
-                print('Change keymap!', newkeymap == self.keymap)
+                logger.info('Change keymap!', newkeymap == self.keymap)
                 self.keymap = newkeymap
 
     def get_key_name(self, keycode, state):
@@ -180,14 +183,9 @@ class Sniffer:
         d = win.get_full_property(self.atom_NET_WM_NAME, self.atom_UTF8_STRING)
         if d is None or d.format != 8:
             # Fallback.
-            r = win.get_wm_name()
-        else:
-            # Fixing utf8 issue on Ubuntu (https://github.com/gurgeh/selfspy/issues/133)
-            # Thanks to https://github.com/gurgeh/selfspy/issues/133#issuecomment-142943681
-            try:
-                return d.value.decode('utf8')
-            except UnicodeError:
-                return d.value.decode('utf8')
+            logger.warning(f'Cannot get window name, win.get_wm_name: {win.get_wm_name()}')
+            return
+        return d.value.decode('utf8')
 
     def get_cur_window(self):
         i = 0

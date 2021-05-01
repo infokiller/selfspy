@@ -21,8 +21,6 @@ import json
 import re
 import zlib
 
-import cryptography.fernet
-
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy import (
     Index, Column, Boolean, Integer, Unicode, DateTime, LargeBinary, ForeignKey,
