@@ -213,9 +213,7 @@ def main():
         # delete the old password.digest
         os.remove(os.path.join(args['data_dir'], check_password.DIGEST_NAME))
         check_password.check(args['data_dir'], new_encrypter)
-        # don't assume we want the logger to run afterwards
-        logger.info('Exiting...')
-        sys.exit(0)
+        return
 
     astore = ActivityStore(os.path.join(args['data_dir'], cfg.DBNAME),
                            encrypter,
@@ -225,9 +223,12 @@ def main():
         cfg.LOCK.acquire(0)
         try:
             astore.run()
-        except SystemExit:
+        # pylint: disable=bare-except
+        except:
             astore.close()
+            raise
     finally:
+        logger.error('Got exception, exiting', exc_info=True)
         cfg.LOCK.release()
 
 
