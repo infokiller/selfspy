@@ -9,10 +9,10 @@ logger = logging.getLogger()
 
 
 def init_logger(name: str) -> None:
-    stdout_handler = logging.StreamHandler()
+    stderr_handler = logging.StreamHandler()
     stdout_formatter = logging.Formatter(_LOG_FMT)
-    stdout_handler.setFormatter(stdout_formatter)
-    logger.addHandler(stdout_handler)
+    stderr_handler.setFormatter(stdout_formatter)
+    logger.addHandler(stderr_handler)
     syslog_handler = logging.handlers.SysLogHandler(address='/dev/log')
     syslog_formatter = logging.Formatter('{}: {}'.format(name, _LOG_FMT))
     syslog_formatter.ident = name
