@@ -9,4 +9,4 @@ dependencies:
   # Note that secretstorage version 3.1.0 has a bug when used with keyring.
   - pip
   - pip:
-    - -r file:requirements.txt
+    - -r requirements.txt
