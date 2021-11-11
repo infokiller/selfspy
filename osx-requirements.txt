@@ -7,4 +7,4 @@ lockfile==0.12.2
 
 pyobjc-core==7.3
 pyobjc-framework-Cocoa==7.3
-pyobjc-framework-Quartz==7.3
+pyobjc-framework-Quartz==8.0
