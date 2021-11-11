@@ -6,5 +6,5 @@ keyring==23.2.1
 lockfile==0.12.2
 
 pyobjc-core==8.0
-pyobjc-framework-Cocoa==7.3
+pyobjc-framework-Cocoa==8.0
 pyobjc-framework-Quartz==8.0
