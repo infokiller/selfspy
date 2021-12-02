@@ -11,3 +11,6 @@ include/
 .python-version
 
 **/.tags
+
+# Snyk
+.dccache
