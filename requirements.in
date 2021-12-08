@@ -1,0 +1,11 @@
+SQLAlchemy~=1.4
+pycryptodome~=3.12
+cryptography~=36.0
+# Note that secretstorage version 3.1.0 has a bug when used with keyring.
+secretstorage~=3.3
+keyring~=23.4
+lockfile~=0.12
+
+PyGObject~=3.42
+dbus-python~=1.2
+python-xlib~=0.31
