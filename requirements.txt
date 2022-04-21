@@ -211,9 +211,9 @@ python-xlib==0.31 \
     --hash=sha256:1ec6ce0de73d9e6592ead666779a5732b384e5b8fb1f1886bd0a81cafa477759 \
     --hash=sha256:74d83a081f532bc07f6d7afcd6416ec38403d68f68b9b9dc9e1f28fbf2d799e9
     # via -r requirements.in
-secretstorage==3.3.1 \
-    --hash=sha256:422d82c36172d88d6a0ed5afdec956514b189ddbfb72fefab0c8a1cee4eaf71f \
-    --hash=sha256:fd666c51a6bf200643495a04abb261f83229dcb6fd8472ec393df7ffc8b6f195
+secretstorage==3.3.2 \
+    --hash=sha256:0a8eb9645b320881c222e827c26f4cfcf55363e8b374a021981ef886657a912f \
+    --hash=sha256:755dc845b6ad76dcbcbc07ea3da75ae54bb1ea529eb72d15f83d26499a5df319
     # via
     #   -r requirements.in
     #   keyring
