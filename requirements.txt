@@ -155,9 +155,9 @@ jeepney==0.8.0 \
     # via
     #   keyring
     #   secretstorage
-keyring==23.5.1 \
-    --hash=sha256:9ef58314bcc823f426b49ec787539a2d73571b37de4cd498f839803b01acff1e \
-    --hash=sha256:dee502cdf18a98211bef428eea11456a33c00718b2f08524fd5727c7f424bffd
+keyring==23.6.0 \
+    --hash=sha256:372ff2fc43ab779e3f87911c26e6c7acc8bb440cbd82683e383ca37594cb0617 \
+    --hash=sha256:3ac00c26e4c93739e19103091a9986a9f79665a78cf15a4df1dba7ea9ac8da2f
     # via -r requirements.in
 lockfile==0.12.2 \
     --hash=sha256:6aed02de03cba24efabcd600b30540140634fc06cfa603822d508d5361e9f799 \
