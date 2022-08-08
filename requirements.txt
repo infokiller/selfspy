@@ -174,9 +174,9 @@ jeepney==0.8.0 \
     # via
     #   keyring
     #   secretstorage
-keyring==23.7.0 \
-    --hash=sha256:782e1cd1132e91bf459fcd243bcf25b326015c1ac0b198e4408f91fa6791062b \
-    --hash=sha256:e67fc91a7955785fd2efcbccdd72d7dacf136dbc381d27de305b2b660b3de886
+keyring==23.8.1 \
+    --hash=sha256:73dec1c13b15a69979fc9952e01c5c69e38c8ba340cc664d0461a947fc90b93c \
+    --hash=sha256:9715c8461f6d9e61066a5883b1fc8aec68f950e81db4ce9f8635cbaa4b9625bb
     # via -r requirements.in
 lockfile==0.12.2 \
     --hash=sha256:6aed02de03cba24efabcd600b30540140634fc06cfa603822d508d5361e9f799 \
@@ -312,7 +312,7 @@ pip==22.2.2 \
     --hash=sha256:3fd1929db052f056d7a998439176d3333fa1b3f6c1ad881de1885c0717608a4b \
     --hash=sha256:b61a374b5bc40a6e982426aede40c9b5a08ff20e640f5b56977f4f91fed1e39a
     # via pip-tools
-setuptools==63.4.1 \
-    --hash=sha256:7c7854ee1429a240090297628dc9f75b35318d193537968e2dc14010ee2f5bca \
-    --hash=sha256:dc2662692f47d99cb8ae15a784529adeed535bcd7c277fee0beccf961522baf6
+setuptools==63.4.2 \
+    --hash=sha256:73bfae4791da7c1c56882ab17577d00f7a37a0347162aeb9360058de0dc25083 \
+    --hash=sha256:abcb76aa4decd7a17cbe0e4b31bdf549d106ba7f668e87e0860f5f7b84b9b3fe
     # via pip-tools
