@@ -11,4 +11,4 @@ pip-tools~=6.9
 # seems to run fine without it.
 # PyGObject~=3.42
 # dbus-python~=1.2
-python-xlib~=0.31
+python-xlib~=0.32
