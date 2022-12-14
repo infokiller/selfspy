@@ -204,9 +204,9 @@ pep517==0.13.0 \
     --hash=sha256:4ba4446d80aed5b5eac6509ade100bff3e7943a8489de249654a5ae9b33ee35b \
     --hash=sha256:ae69927c5c172be1add9203726d4b84cf3ebad1edcd5f71fcdc746e66e829f59
     # via build
-pip-tools==6.11.0 \
-    --hash=sha256:64a6b66887c270705a9006a10023eb4c893e9bf66c306bdcb4440541b367c057 \
-    --hash=sha256:90c5dc150e3856e4463b81ccc99307ccf9554e5db8393eb273705cb0b8f71c60
+pip-tools==6.12.0 \
+    --hash=sha256:8e22fbc84ede7ca522ba4b033c4fcf6a6419adabc75d24747be3d8262504489a \
+    --hash=sha256:f441603c63b16f4af0dd5026f7522a49eddec2bc8a4a4979af44e1f6b0a1c13e
     # via -r requirements.in
 pycparser==2.21 \
     --hash=sha256:8ee45429555515e1f6b185e78100aea234072576aa43ab53aefcae078162fca9 \
