@@ -3,7 +3,7 @@ pycryptodome~=3.15
 cryptography~=38.0
 # Note that secretstorage version 3.1.0 has a bug when used with keyring.
 secretstorage~=3.3
-keyring~=23.4
+keyring~=23.13
 lockfile~=0.12
 pip-tools~=6.12
 
