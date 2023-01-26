@@ -1,4 +1,4 @@
-SQLAlchemy~=1.4
+SQLAlchemy~=2.0
 pycryptodome~=3.15
 cryptography~=39.0
 # Note that secretstorage version 3.1.0 has a bug when used with keyring.
