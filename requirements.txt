@@ -296,9 +296,9 @@ sqlalchemy==2.0.15 \
     --hash=sha256:f6fd3c88ea4b170d13527e93be1945e69facd917661d3725a63470eb683fbffe \
     --hash=sha256:f7f994a53c0e6b44a2966fd6bfc53e37d34b7dca34e75b6be295de6db598255e
     # via -r requirements.in
-typing-extensions==4.5.0 \
-    --hash=sha256:5cb5f4a79139d699607b3ef622a1dedafa84e115ab0024e0d9c044a9479ca7cb \
-    --hash=sha256:fb33085c39dd998ac16d1431ebc293a8b3eedd00fd4a32de0ff79002c19511b4
+typing-extensions==4.6.0 \
+    --hash=sha256:6ad00b63f849b7dcc313b70b6b304ed67b2b2963b3098a33efe18056b1a9a223 \
+    --hash=sha256:ff6b238610c747e44c268aa4bb23c8c735d665a63726df3f9431ce707f2aa768
     # via sqlalchemy
 wheel==0.40.0 \
     --hash=sha256:cd1196f3faee2b31968d626e1731c94f99cbdb67cf5a46e4f5656cbee7738873 \
