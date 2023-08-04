@@ -189,9 +189,9 @@ lockfile==0.12.2 \
     --hash=sha256:6aed02de03cba24efabcd600b30540140634fc06cfa603822d508d5361e9f799 \
     --hash=sha256:6c3cb24f344923d30b2785d5ad75182c8ea7ac1b6171b08657258ec7429d50fa
     # via -r requirements.in
-more-itertools==10.0.0 \
-    --hash=sha256:928d514ffd22b5b0a8fce326d57f423a55d2ff783b093bab217eda71e732330f \
-    --hash=sha256:cd65437d7c4b615ab81c0640c0480bc29a550ea032891977681efd28344d51e1
+more-itertools==10.1.0 \
+    --hash=sha256:626c369fa0eb37bac0291bce8259b332fd59ac792fa5497b59837309cd5b114a \
+    --hash=sha256:64e0735fcfdc6f3464ea133afe8ea4483b1c5fe3a3d69852e6503b43a0b222e6
     # via jaraco-classes
 packaging==23.1 \
     --hash=sha256:994793af429502c4ea2ebf6bf664629d07c1a9fe974af92966e4b8d2df7edc61 \
