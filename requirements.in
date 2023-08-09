@@ -5,7 +5,7 @@ cryptography~=41.0
 secretstorage~=3.3
 keyring~=24.1
 lockfile~=0.12
-pip-tools~=7.2
+pip-tools~=7.3
 
 # NOTE: not sure why I originally added pygobject and dbus-python, but selfspy
 # seems to run fine without it.
