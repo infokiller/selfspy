@@ -22,10 +22,21 @@ import sys
 
 from Xlib import X, XK, display
 from Xlib.ext import record
-from Xlib.error import XError
+from Xlib.display import error as xlib_error
 from Xlib.protocol import rq
 
 from selfspy import logutils
+
+_XLIB_EXCEPTIONS = (
+    xlib_error.DisplayError,
+    # AttributeError: 'BadRRModeError' object has no attribute 'sequence_number'
+    AttributeError,
+    xlib_error.XError,
+    xlib_error.ConnectionClosedError,
+    xlib_error.XauthError,
+    xlib_error.XNoAuthError,
+    xlib_error.ResourceIDError,
+)
 
 logger = logutils.logger
 
@@ -208,7 +219,7 @@ class Sniffer:
                         cur_class = cur_class[1]
                     if not cur_class:
                         cur_window = cur_window.query_tree().parent
-            except XError:
+            except _XLIB_EXCEPTIONS:
                 i += 1
                 continue
             break
@@ -223,6 +234,6 @@ class Sniffer:
             try:
                 geo = cur_window.get_geometry()
                 break
-            except XError:
+            except _XLIB_EXCEPTIONS:
                 i += 1
         return geo
